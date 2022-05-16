@@ -1,0 +1,80 @@
+{@java.util.List<com.andrzejressel.onedrivecollector.repository.Account> accounts}
+{@java.net.URI authorizeUri}
+{@com.andrzejressel.onedrivecollector.resource.AlertType alertType}
+{#include base}
+{#title}OneDrive collector{/title}
+<div class="container">
+
+    <div class="starter-template">
+        <h1>List of OneDrive accounts</h1>
+    </div>
+
+    {#if alertType}
+        {#switch alertType}
+        {#case SUCCESS}
+        <div class="row">
+            <div class="col-lg-6 offset-md-3">
+                <div class="alert alert-success" role="alert">
+                    Account added.
+                </div>
+            </div>
+        </div>
+        {#case REMOVED}
+        <div class="row">
+            <div class="col-lg-6 offset-md-3">
+                <div class="alert alert-success" role="alert">
+                    Account removed.
+                </div>
+            </div>
+        </div>
+        {#case ERROR}
+        <div class="row">
+            <div class="col-lg-6 offset-md-3">
+                <div class="alert alert-danger" role="alert">
+                    An error has occured. Please see logs.
+                </div>
+            </div>
+        </div>
+        {#case ALREADY_EXISTS}
+        <div class="row">
+            <div class="col-lg-6 offset-md-3">
+                <div class="alert alert-warning" role="alert">
+                    Account already exists.
+                </div>
+            </div>
+        </div>
+        {/switch}
+    {/if}
+
+    {#for account in accounts}
+        <div class="row">
+            <div class="col-lg-6 offset-md-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="{account.name}" readonly>
+                    <div class="input-group-prepend">
+                        <form action="/onedrive/delete" method="POST">
+                            <input type="hidden" name="accountId" value="{account.id}" />
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {#else}
+        <div class="row">
+            <div class="col-lg-6 offset-md-3">
+                <div class="alert alert-secondary" role="alert">
+                    No accounts available. Add one below.
+                </div>
+            </div>
+        </div>
+    {/for}
+
+    <div class="row">
+        <div class="col-lg-6 offset-md-3">
+            <a href="{authorizeUri}"><button type="button" class="btn btn-primary btn-block">Add new account</button></a>
+        </div>
+    </div>
+
+</div><!-- /.container -->
+{/include}
