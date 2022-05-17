@@ -13,7 +13,6 @@ COPY --chown=quarkus:quarkus src/main/resources /code/src/main/resources
 
 USER quarkus
 WORKDIR /code
-RUN chmod +x gradlew
 RUN VERSION=$VERSION ./gradlew build -Dquarkus.package.type=native --no-daemon
 
 ## Stage 2 : create the docker final image
@@ -30,7 +29,6 @@ USER jboss
 
 RUN curl -o /work/h2.jar -L https://repo1.maven.org/maven2/com/h2database/h2/2.1.210/h2-2.1.210.jar
 COPY src/main/docker/run.sh /work/run.sh
-RUN chmod +x /work/run.sh
 COPY --from=build /code/build/*-runner /work/application
 
 EXPOSE 8080
