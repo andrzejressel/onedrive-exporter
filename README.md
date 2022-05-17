@@ -22,10 +22,9 @@ services:
 ```yaml
 # prometheus.yaml
 - job_name: 'onedrive'
-  scheme: https
   metrics_path: /q/metrics
   static_configs:
-    - targets: ['http://localhost:8080/']
+    - targets: ['localhost:8080']
 ```
 
 ### Getting your own Client ID and Secret
