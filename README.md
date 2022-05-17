@@ -23,7 +23,7 @@ services:
 # prometheus.yaml
 - job_name: 'onedrive'
   scheme: https
-  metrics_path: /q
+  metrics_path: /q/metrics
   static_configs:
     - targets: ['http://localhost:8080/']
 ```
