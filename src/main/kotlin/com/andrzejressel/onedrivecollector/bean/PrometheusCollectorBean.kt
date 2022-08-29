@@ -5,6 +5,7 @@ import com.andrzejressel.onedrivecollector.onedrive.model.Drive
 import com.andrzejressel.onedrivecollector.repository.Account
 import com.andrzejressel.onedrivecollector.repository.AccountRepository
 import io.prometheus.client.Collector
+import io.prometheus.client.Collector.Describable
 import io.prometheus.client.GaugeMetricFamily
 import org.eclipse.microprofile.rest.client.inject.RestClient
 import org.slf4j.LoggerFactory
@@ -16,9 +17,11 @@ class PrometheusCollectorBean(
     private val repository: AccountRepository,
     @RestClient
     private val oneDriveClient: OneDriveRestClientService
-): Collector() {
+) : Collector(), Describable {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    override fun describe(): List<MetricFamilySamples> = listOf()
 
     @Transactional
     override fun collect(): List<MetricFamilySamples> {
