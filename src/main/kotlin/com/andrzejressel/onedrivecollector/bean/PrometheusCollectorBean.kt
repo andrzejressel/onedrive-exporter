@@ -30,8 +30,12 @@ class PrometheusCollectorBean(
 
         val accountDrives = accounts.associateWith { account ->
             val token = "Bearer ${account.accessToken}"
-            val driveInfo = oneDriveClient.drive(token)
-            driveInfo
+            try {
+                oneDriveClient.drive(token)
+            } catch (e: Exception) {
+                logger.error("Cannot get drive [${account.name}]", e)
+                throw RuntimeException("Cannot get drive [${account.name}]", e)
+            }
         }
 
         return listOf(
